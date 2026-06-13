@@ -26,8 +26,16 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CustomAuthTokenSerializer(serializers.Serializer):
-    email = serializers.EmailField(label=_("Email"), required=False, write_only=True)
-    username = serializers.CharField(label=_("Username"), required=False, write_only=True)
+    email = serializers.EmailField(
+        label=_("Email"),
+        required=False,
+        write_only=True,
+    )
+    username = serializers.CharField(
+        label=_("Username"),
+        required=False,
+        write_only=True,
+    )
     password = serializers.CharField(
         label=_("Password"),
         style={"input_type": "password"},
@@ -37,7 +45,6 @@ class CustomAuthTokenSerializer(serializers.Serializer):
     token = serializers.CharField(label=_("Token"), read_only=True)
 
     def validate(self, attrs):
-        # Приймаємо будь-який ключ, який надіслали тести або DRF
         email = attrs.get("email") or attrs.get("username")
         password = attrs.get("password")
 
