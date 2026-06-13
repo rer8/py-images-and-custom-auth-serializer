@@ -26,16 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CustomAuthTokenSerializer(serializers.Serializer):
-    email = serializers.EmailField(
-        label=_("Email"),
-        required=False,
-        write_only=True,
-    )
-    username = serializers.CharField(
-        label=_("Username"),
-        required=False,
-        write_only=True,
-    )
+    username = serializers.CharField(label=_("Email"), write_only=True)
     password = serializers.CharField(
         label=_("Password"),
         style={"input_type": "password"},
@@ -45,7 +36,7 @@ class CustomAuthTokenSerializer(serializers.Serializer):
     token = serializers.CharField(label=_("Token"), read_only=True)
 
     def validate(self, attrs):
-        email = attrs.get("email") or attrs.get("username")
+        email = attrs.get("username")
         password = attrs.get("password")
 
         if email and password:
@@ -59,7 +50,7 @@ class CustomAuthTokenSerializer(serializers.Serializer):
                 msg = _("Unable to log in with provided credentials.")
                 raise serializers.ValidationError(msg, code="authorization")
         else:
-            msg = _('Must include "email" or "username" and "password".')
+            msg = _('Must include "email" and "password".')
             raise serializers.ValidationError(msg, code="authorization")
 
         attrs["user"] = user
