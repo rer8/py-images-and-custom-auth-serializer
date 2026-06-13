@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CustomAuthTokenSerializer(serializers.Serializer):
-    email = serializers.EmailField(label=_("Email"), write_only=True)
+    username = serializers.CharField(label=_("Email"), write_only=True)
     password = serializers.CharField(
         label=_("Password"),
         style={"input_type": "password"},
@@ -36,7 +36,7 @@ class CustomAuthTokenSerializer(serializers.Serializer):
     token = serializers.CharField(label=_("Token"), read_only=True)
 
     def validate(self, attrs):
-        email = attrs.get("email")
+        email = attrs.get("username")
         password = attrs.get("password")
 
         if email and password:
